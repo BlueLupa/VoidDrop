@@ -4,6 +4,8 @@ A local-first, zero-organisation AI notes app where your thoughts, files, and pi
 
 ![Main Screen](docs/main.png)
 
+https://github.com/user-attachments/assets/a7b04cb6-fcb3-424f-be4c-472b33a80b33
+
 ## Overview
 
 VoidDrop is a desktop application built with Rust, Tauri, and React.
