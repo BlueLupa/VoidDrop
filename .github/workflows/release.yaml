@@ -35,18 +35,16 @@ jobs:
       - name: Cache Bun dependencies
         uses: actions/cache@v4
         with:
-        path: |
-          ~/.bun/install/cache
-          node_modules
-        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lockb') }}
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
 
       - name: Install frontend dependencies
         run: bun install
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
