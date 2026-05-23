@@ -1,8 +1,12 @@
 # VoidDrop
 
-A local-first, zero-organisation AI notes app where your thoughts, files, and pictures collapse into a searchable galaxy.
+A local-first AI notes app where thoughts, files, images, and code collapse into a searchable semantic galaxy.
+
+No folders. No tagging. Just search by vibes.
 
 ![Main Screen](docs/main.png)
+
+https://github.com/user-attachments/assets/a7b04cb6-fcb3-424f-be4c-472b33a80b33
 
 ## Overview
 
