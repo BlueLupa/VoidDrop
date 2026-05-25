@@ -1419,8 +1419,14 @@ function App() {
       await delay(1000);
       const lt = toast.loading("Waking the Void...");
       await delay(500);
-      await invoke("load_models");
-      toast.dismiss(lt);
+
+      try {
+        await invoke("load_models");
+      } catch (err) {
+        toast.error("Failed to load models", { description: `${err}` })
+      } finally {
+        toast.dismiss(lt);
+      }
     };
 
     loadModels();

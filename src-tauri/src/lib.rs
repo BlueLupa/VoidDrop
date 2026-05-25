@@ -2415,15 +2415,25 @@ fn process_file(bytes: Vec<u8>, file_name: &str, state: State<'_, AppState>) -> 
 
 #[tauri::command]
 fn load_models(state: State<'_, AppState>) -> Result<(), String> {
+    let cache_dir = PathBuf::from(&state.file_dir).join("models");
+    std::fs::create_dir_all(&cache_dir).map_err(|e| e.to_string())?;
+    std::env::set_var("HF_HOME", &cache_dir);
+    
     let mut img_search = state.img_search_model.lock().map_err(|e| e.to_string())?;
     let mut img = state.img_model.lock().map_err(|e| e.to_string())?;
     let mut text = state.model.lock().map_err(|e| e.to_string())?;
-    *img_search =
-        Some(TextEmbedding::try_new(InitOptions::new(EmbeddingModel::ClipVitB32)).unwrap());
+    *img_search = Some(
+        TextEmbedding::try_new(InitOptions::new(EmbeddingModel::ClipVitB32))
+            .map_err(|e| e.to_string())?,
+    );
 
-    *text = Some(TextEmbedding::try_new(InitOptions::new(EmbeddingModel::BGESmallENV15)).unwrap());
+    *text = Some(
+        TextEmbedding::try_new(InitOptions::new(EmbeddingModel::BGESmallENV15))
+            .map_err(|e| e.to_string())?,
+    );
     *img = Some(
-        ImageEmbedding::try_new(ImageInitOptions::new(ImageEmbeddingModel::ClipVitB32)).unwrap(),
+        ImageEmbedding::try_new(ImageInitOptions::new(ImageEmbeddingModel::ClipVitB32))
+            .map_err(|e| e.to_string())?,
     );
     Ok(())
 }
