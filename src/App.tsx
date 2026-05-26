@@ -12,6 +12,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { Toaster, toast } from "sonner";
 import heic2any from "heic2any";
 import { Document, Page, pdfjs } from 'react-pdf';
+import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -20,7 +21,7 @@ import { Html, OrthographicCamera } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const placeholders = [
   "Inscribe a thought...",
@@ -1435,52 +1436,63 @@ function App() {
   }, []);
 
   return (
-    <main className="relative h-screen w-screen bg-void flex flex-col items-center justify-center p-8 selection:bg-white/10 select-text">
-      <Toaster
-        position="bottom-right"
-        theme="dark"
-        closeButton
-        duration={Infinity}
-        richColors />
-      <SideBar screen={screen} setScreen={setScreen} />
-      <AnimatePresence mode="wait">
-        {(screen === 0)
-          ? <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            key={"main"}>
-            <MainScreen notes_n={notes_n} setNotesN={setNotesN} config={config} /></motion.div>
-          : (screen === 1)
+    <>
+      <div
+        data-tauri-drag-region
+        className="fixed top-0 left-0 right-0 h-8 z-9999 bg-transparent"
+        onMouseDown={(event) => {
+          if (event.button === 0) {
+            void getCurrentWindow().startDragging();
+          }
+        }}
+      />
+      <main className="relative h-screen w-screen bg-void flex flex-col items-center justify-center p-8 selection:bg-white/10 select-text">
+        <Toaster
+          position="bottom-right"
+          theme="dark"
+          closeButton
+          duration={Infinity}
+          richColors />
+        <SideBar screen={screen} setScreen={setScreen} />
+        <AnimatePresence mode="wait">
+          {(screen === 0)
             ? <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 3.0 }}
+              transition={{ duration: 0.3 }}
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              key={"latent"}
-              className="w-full h-full">
-              <LatentSpaceScreen config={config} /></motion.div>
-            : (screen === 2)
+              key={"main"}>
+              <MainScreen notes_n={notes_n} setNotesN={setNotesN} config={config} /></motion.div>
+            : (screen === 1)
               ? <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 3.0 }}
                 exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                key={"archive"}
+                key={"latent"}
                 className="w-full h-full">
-                <ArchiveScreen config={config} notes_n={notes_n} setNotesN={setNotesN} /></motion.div>
-              : <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                key={"settings"}
-                className="w-full h-full">
-                <SettingsScreen config={config} setConfig={setConfig} /></motion.div>
-        }
-      </AnimatePresence>
-    </main>
+                <LatentSpaceScreen config={config} /></motion.div>
+              : (screen === 2)
+                ? <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                  key={"archive"}
+                  className="w-full h-full">
+                  <ArchiveScreen config={config} notes_n={notes_n} setNotesN={setNotesN} /></motion.div>
+                : <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                  key={"settings"}
+                  className="w-full h-full">
+                  <SettingsScreen config={config} setConfig={setConfig} /></motion.div>
+          }
+        </AnimatePresence>
+      </main>
+    </>
   );
 }
 
