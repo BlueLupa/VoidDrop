@@ -554,7 +554,7 @@ function ActionButton({ Icon, clickFN, ErrMsg, styling }: any) {
 
 function PdfPreview({ url }: any) {
   return (
-    <div className="relative w-full border-y border-nebula overflow-hidden bg-black">
+    <div className="relative w-full h-auto border-y border-nebula overflow-hidden bg-black">
       <Document
         file={url}
         loading={<div className="w-full bg-zinc-800 animate-pulse"></div>}

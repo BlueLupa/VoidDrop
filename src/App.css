@@ -34,21 +34,11 @@
 }
 
 .custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #857dff30 transparent;
+  scrollbar-width: none;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px; 
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #857dff30;
-  border-radius: 9999px;
+  display: none;
 }
 
 body {
