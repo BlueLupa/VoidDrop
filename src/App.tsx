@@ -670,8 +670,10 @@ function FileCard({ x, expandedCard, setExpandedCard, deleteFunction, config, no
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
         className="overflow-hidden"><div className="overflow-hidden" >
-          {!assetUrl && (config["pdf_previews"] || config["file_previews"])
-            ? <div className="font-mono tracking-widest select-none text-zinc-600">Loading...</div>
+          {!assetUrl
+            ? (config["pdf_previews"] || config["file_previews"]) && (
+              <div className="font-mono tracking-widest select-none text-zinc-600 p-4">Loading...</div>
+            )
             : isPdf ? (
               config["pdf_previews"]
                 ? <PdfPreview url={assetUrl} />
