@@ -18,6 +18,26 @@ You don't organise. You don't tag. You just search by **vibes**.
 
 ---
 
+## Get Started
+
+Head over to the [Releases page](https://github.com/BlueLupa/VoidDrop/releases/) and download the latest build for your operating system.
+
+When you open the app for the first time, it may take a minute to download the models. After that, the models will load much quicker and not require an internet connection.
+
+**Important Note for macOS Users**
+
+Because VoidDrop is an independent project without an official Apple Developer Certificate, macOS's Gatekeeper will strictly flag the app as "damaged" and refuse to open it. The file is perfectly safe, it just needs its quarantine flag removed.
+
+After dragging the app into your Applications folder, run this command in the terminal:
+
+```bash
+xattr -d com.apple.quarantine /Applications/VoidDrop.app
+```
+
+> _Note: For macOS, VoidDrop is compiled exclusively for Apple Silicon (M1 chips and newer).<br /><br />Legacy Intel Macs are not supported – the underlying ONNX Runtime no longer provides prebuilt `x86_64-apple-darwin` binaries, and Rust itself has demoted the target to Tier 2._
+
+---
+
 ## Stack
 - **Backend**: Rust + Tauri
 - **Frontend**: React + TypeScript + TailwindCSS + Framer Motion + Three.js
@@ -43,7 +63,7 @@ Drop anything into the void:
 
 ### Semantic "Vibes" Search
 Search by meaning, not keywords. Powered by local embedding models, results are ranked by cosine similarity.
-- **Text** use a 384 dimensional sentence embedding model
+- **Text** uses a 384 dimensional sentence embedding model
 - **Documents** use the same model as for thoughts, and are chunked automatically to find the average meaning
 - **Images** use CLIP, which shares an embedding space with text — enabling cross-modal search. Raw CLIP scores are calibrated so images rank accurately alongside text results
 
