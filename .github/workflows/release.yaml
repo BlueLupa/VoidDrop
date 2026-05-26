@@ -4,24 +4,12 @@ on:
   push:
     tags:
       - 'v*'
-  release:
-    types:
-      - published
   workflow_dispatch:
     inputs:
       tag:
         description: 'Tag to release, e.g. v1.0.2'
         required: true
         type: string
-      release_draft:
-        description: 'Create or use a draft release'
-        required: true
-        default: false
-        type: boolean
-
-env:
-  RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
-  RELEASE_DRAFT: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' && inputs.release_draft }}
 
 jobs:
   release:
@@ -48,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ env.RELEASE_TAG }}
+          ref: ${{ github.event.inputs.tag || github.ref_name }}
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
@@ -85,9 +73,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ env.RELEASE_TAG }}
-          releaseName: VoidDrop ${{ env.RELEASE_TAG }}
+          tagName: ${{ github.event.inputs.tag || github.ref_name }}
+          releaseName: VoidDrop ${{ github.event.inputs.tag || github.ref_name }}
           releaseBody: See CHANGELOG.md for details.
-          releaseDraft: ${{ env.RELEASE_DRAFT }}
+          releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
