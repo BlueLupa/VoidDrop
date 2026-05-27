@@ -16,7 +16,11 @@ VoidDrop converts everything into AI embeddings and stores them locally, letting
 
 You don't organise. You don't tag. You just search by **vibes**.
 
----
+### Why?
+
+I'm the kind of person who dumps everything into Notes, reminder apps, or onto the desktop and hopes future-me can find it later.
+
+So I made VoidDrop – a place where I can do exactly that, except future-me can now retrieve things in seconds instead of digging through chaos.
 
 ## Get Started
 
